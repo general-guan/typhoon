@@ -1,17 +1,26 @@
-const { app, BrowserWindow } = require('electron')
-const path = require('path')
+import { app, BrowserWindow } from 'electron'
+import path from 'path'
+
 const createWindow = () => {
-  const mainWindow = new BrowserWindow({
+  const mainWindow: BrowserWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
+      devTools: true,
+      contextIsolation: false,
+      // 允许html页面上的javaScript代码访问nodejs 环境api代码的能力（与node集成的意思）
+      nodeIntegration: true,
       // preload: path.join(__dirname, 'preload.js'),
     },
   })
 
   // 加载 index.html
   // mainWindow.loadFile('index.html')
-  mainWindow.loadURL('http://localhost:5173')
+  if (app.isPackaged) {
+    mainWindow.loadURL(path.join(__dirname, '../index.html'))
+  } else {
+    mainWindow.loadURL(`${process.env['VITE_DEV_SERVER_URL']}`)
+  }
 
   // 打开开发工具
   // mainWindow.webContents.openDevTools()
