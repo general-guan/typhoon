@@ -1,10 +1,11 @@
 import { app, BrowserWindow } from 'electron'
 import path from 'path'
+import './menu'
 
 const createWindow = () => {
   const mainWindow: BrowserWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 720,
     webPreferences: {
       devTools: true,
       contextIsolation: false,
@@ -23,7 +24,7 @@ const createWindow = () => {
   }
 
   // 打开开发工具
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {
