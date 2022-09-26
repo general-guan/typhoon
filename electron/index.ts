@@ -4,8 +4,8 @@ import './menu'
 
 const createWindow = () => {
   const mainWindow: BrowserWindow = new BrowserWindow({
-    width: 1200,
-    height: 720,
+    width: 1600,
+    height: 960,
     webPreferences: {
       devTools: true,
       contextIsolation: false,
