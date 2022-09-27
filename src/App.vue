@@ -24,9 +24,10 @@
       ></div>
     </div>
 
-    <div style="height: 100%; overflow: auto; padding: 20px 30px">
-      {{ content }}
-    </div>
+    <div
+      v-html="content"
+      style="height: 100%; overflow: auto; padding: 20px 30px; flex: 1"
+    ></div>
   </div>
 </template>
 
@@ -35,6 +36,7 @@ import { ipcRenderer } from 'electron'
 import { ref } from 'vue'
 import fs from 'fs'
 import { throttle } from './utils'
+import { marked } from 'marked'
 
 // 文件列表
 const root = ref<string>('')
@@ -52,8 +54,7 @@ ipcRenderer.on('openFolder', (_, data) => {
 
 const openFiles = (item: string) => {
   fs.readFile(root.value + '\\' + item, (err, data) => {
-    content.value = data.toString()
-    console.log(content.value)
+    content.value = marked.parse(data.toString())
   })
 }
 
