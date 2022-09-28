@@ -26,6 +26,7 @@
 
     <div
       v-html="content"
+      class="hljs"
       style="height: 100%; overflow: auto; padding: 20px 30px; flex: 1"
     ></div>
   </div>
@@ -37,6 +38,8 @@ import { ref } from 'vue'
 import fs from 'fs'
 import { throttle } from './utils'
 import { marked } from 'marked'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github.css'
 
 // 文件列表
 const root = ref<string>('')
@@ -54,7 +57,25 @@ ipcRenderer.on('openFolder', (_, data) => {
 
 const openFiles = (item: string) => {
   fs.readFile(root.value + '\\' + item, (err, data) => {
+    // var rendererMD = new marked.Renderer()
+    // marked.setOptions({
+    //   renderer: rendererMD,
+    //   highlight: function (code: string) {
+    //     return hljs.highlightAuto(code).value
+    //   },
+    //   pedantic: false,
+    //   gfm: true,
+    //   tables: true,
+    //   breaks: false,
+    //   sanitize: false,
+    //   smartLists: true,
+    //   smartypants: false,
+    //   xhtml: false,
+    // })
+    // content.value = marked(data.toString())
+
     content.value = marked.parse(data.toString())
+    console.log(content.value)
   })
 }
 
